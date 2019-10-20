@@ -1,0 +1,95 @@
+// PUT okky-contents-sk
+{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+       "korean_nori_analyzer": {
+            "type": "custom",
+            "char_filter" : ["html_strip"],
+            "tokenizer": "korean_nori_tokenizer",
+            "filter" : [
+                "korean_nori_part_of_speech",
+                "lowercase"
+              ]
+          }
+      },
+      "tokenizer": {
+        "korean_nori_tokenizer": {
+            "type": "nori_tokenizer",
+            "decompound_mode": "mixed"
+          }
+      }, 
+      "filter": {
+        "korean_nori_part_of_speech": {
+              "type": "nori_part_of_speech",
+              "stoptags": [
+                            "E",
+                            "J",
+                            "MAG",
+                            "MAJ",
+                            "MM",
+                            "SP",
+                            "SSC",
+                            "SSO",
+                            "SC",
+                            "SE",
+                            "SF",
+                            "XSA",
+                            "XSN",
+                            "XSV",
+                            "UNA",
+                            "NA",
+                            "VSV",
+                            "VCP",
+                            "VCN"
+                         ]           
+           }
+      },
+      "normalizer": {
+        "norm_low": {
+          "type": "custom",
+          "filter": [ "lowercase", "asciifolding" ]
+        }
+      }
+    }
+  },
+  "mappings" : {
+    "properties": {
+     "category" : {
+          "type" : "text",
+          "fields" : {
+            "keyword" : {
+              "type" : "keyword"
+            }
+          }
+        },
+        "create_at" : {
+          "type" : "date"
+        },
+        "id" : {
+          "type" : "long"
+        },
+        "tag" : {
+          "type" : "keyword",
+          "normalizer": "norm_low"
+        },
+        "text" : {
+          "type" : "text",
+          "analyzer": "korean_nori_analyzer"
+        },
+        "title" : {
+          "type" : "text",
+          "analyzer": "korean_nori_analyzer"
+        },
+        "update_at" : {
+          "type" : "date"
+        },
+        "view_count" : {
+          "type" : "long"
+        },
+        "vote_count" : {
+          "type" : "long"
+        }
+      } 
+    }
+}
